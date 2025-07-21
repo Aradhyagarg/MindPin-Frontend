@@ -456,6 +456,7 @@ export const PinProvider = ({ children }) => {
 export const PinData = () => useContext(PinContext);*/
 
 import axios from "axios";
+import { server } from "../App"
 import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
@@ -484,7 +485,7 @@ export const PinProvider = ({ children }) => {
     setPinsLoading(true);
     setLoading(true);
     try {
-      const { data } = await axios.get("https://mindpin-backend.onrender.com/api/v8/pin/all");
+      const { data } = await axios.get(`https://${server}/api/v8/pin/all`);
       setPins(data);
     } catch (error) {
       console.log(error);
@@ -508,7 +509,7 @@ export const PinProvider = ({ children }) => {
     setSuggestedPins([]);
     
     try {
-      const { data } = await axios.get("/api/v8/pin/" + id);
+      const { data } = await axios.get(`https://${server}/api/v8/pin/` + id);
       setPin(data);
     } catch (error) {
       console.log(error);
@@ -526,7 +527,7 @@ export const PinProvider = ({ children }) => {
     setSavedPinsLoading(true);
     setLoading(true);
     try {
-      const { data } = await axios.get("/api/v8/pin/saved");
+      const { data } = await axios.get(`https://${server}/api/v8/pin/saved`);
       setSaved(data);
     } catch (error) {
       toast.error(
@@ -551,7 +552,7 @@ export const PinProvider = ({ children }) => {
     setSuggestedPins([]);
     
     try {
-      const { data } = await axios.get(`/api/v8/pin/suggestions/${id}`);
+      const { data } = await axios.get(`https://${server}/api/v8/pin/suggestions/${id}`);
       console.log(`✅ Frontend: Received ${data.length} suggestions:`, data.map(pin => pin.title));
       setSuggestedPins(data);
     } catch (error) {
@@ -568,7 +569,7 @@ export const PinProvider = ({ children }) => {
 
   async function updatePin(id, title, pin, setEdit) {
     try {
-      const { data } = await axios.put("/api/v8/pin/" + id, { title, pin });
+      const { data } = await axios.put(`https://${server}/api/v8/pin/` + id, { title, pin });
       toast.success(data.message);
       fetchPin(id);
       setEdit(false);
@@ -579,7 +580,7 @@ export const PinProvider = ({ children }) => {
 
   async function deletePin(id, navigate) {
     try {
-      const { data } = await axios.delete(`/api/v8/pin/${id}`);
+      const { data } = await axios.delete(`https://${server}/api/v8/pin/${id}`);
       toast.success(data.message);
       setPins((prevPins) => prevPins.filter((p) => p._id !== id));
       setPin(null);
@@ -591,7 +592,7 @@ export const PinProvider = ({ children }) => {
 
   async function addComment(id, comment, setComment) {
     try {
-      const { data } = await axios.post("/api/v8/pin/comment/" + id, {
+      const { data } = await axios.post(`https://${server}/api/v8/pin/comment/` + id, {
         comment,
       });
       toast.success(data.message);
@@ -605,7 +606,7 @@ export const PinProvider = ({ children }) => {
   async function updateComment(id, commentId, comment, callback) {
     try {
       const { data } = await axios.put(
-        `/api/v8/pin/comment/${id}?commentId=${commentId}`,
+        `https://${server}/api/v8/pin/comment/${id}?commentId=${commentId}`,
         { comment }
       );
       toast.success(data.message);
@@ -621,7 +622,7 @@ export const PinProvider = ({ children }) => {
   async function deleteComment(id, commentId) {
     try {
       const { data } = await axios.delete(
-        `/api/v8/pin/comment/${id}?commentId=${commentId}`
+        `https://${server}/api/v8/pin/comment/${id}?commentId=${commentId}`
       );
       toast.success(data.message);
       fetchPin(id);
@@ -633,7 +634,7 @@ export const PinProvider = ({ children }) => {
   const searchPins = async (query) => {
     setLoading(true);
     try {
-      const { data } = await axios.get("/api/v8/user/search", {
+      const { data } = await axios.get(`https://${server}/api/v8/user/search`, {
         params: { query },
         withCredentials: true,
       });
@@ -647,7 +648,7 @@ export const PinProvider = ({ children }) => {
 
   const handleLike = async (id) => {
     try {
-      const { data } = await axios.post(`/api/v8/pin/like/${id}`);
+      const { data } = await axios.post(`https://${server}/api/v8/pin/like/${id}`);
       toast.success(data.message);
       fetchPin(id);
       fetchPins();
@@ -658,7 +659,7 @@ export const PinProvider = ({ children }) => {
 
   const handleSave = async (id) => {
     try {
-      const { data } = await axios.post(`/api/v8/pin/save/${id}`);
+      const { data } = await axios.post(`https://${server}/api/v8/pin/save/${id}`);
       toast.success(data.message);
       fetchPin(id);
     } catch (error) {
@@ -675,7 +676,7 @@ export const PinProvider = ({ children }) => {
     navigate
   ) {
     try {
-      const { data } = await axios.post("/api/v8/pin/new", formData);
+      const { data } = await axios.post(`https://${server}/api/v8/pin/new`, formData);
       toast.success(data.message);
       setFilePrev("");
       setFile("");

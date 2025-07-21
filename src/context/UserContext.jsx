@@ -1,4 +1,5 @@
 import axios from "axios";
+import { server } from "../App";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -19,7 +20,7 @@ export const UserProvider = ({ children }) => {
   async function loginUser(email, password, navigate) {
     setBtnLoading(true);
     try {
-      const { data } = await axios.post("/api/v8/user/login", {
+      const { data } = await axios.post(`https://${server}/api/v8/user/login`, {
         email,
         password,
       });
@@ -37,7 +38,7 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   async function fetchUser() {
     try {
-      const { data } = await axios.get("/api/v8/user/me");
+      const { data } = await axios.get(`https://${server}/api/v8/user/me`);
       setUser(data.user);
       setIsAuth(true);
       setLoading(false);
@@ -56,7 +57,7 @@ export const UserProvider = ({ children }) => {
   async function registerUser(name, username, email, password, navigate) {
     setBtnLoading(true);
     try {
-      const { data } = await axios.post("/api/v8/user/register", {
+      const { data } = await axios.post(`https://${server}/api/v8/user/register`, {
         name,
         username,
         email,
@@ -86,7 +87,7 @@ export const UserProvider = ({ children }) => {
   const fetchNotifications = async () => {
     setNotificationsLoading(true);
     try {
-      const { data } = await axios.get("/api/v8/user/notifications");
+      const { data } = await axios.get(`https://${server}/api/v8/user/notifications`);
       console.log("Fetched notifications:", data.notifications);
       setUnreadNotifications(data.unreadNotifications);
       setNotifications(data.notifications);
@@ -124,7 +125,7 @@ export const UserProvider = ({ children }) => {
   async function notificationsRead(notificationId) {
     try {
       const {data} = await axios.put(
-        `/api/v8/user/notifications/${notificationId}`);
+        `https://${server}/api/v8/user/notifications/${notificationId}`);
       //console.log("API response:", response.data);
       setUnreadNotifications(data.unreadNotifications);
       setNotifications(data.notifications);
@@ -157,7 +158,7 @@ export const UserProvider = ({ children }) => {
   async function forgetPassword(email, navigate) {
     setBtnLoading(true);
     try {
-      const { data } = await axios.post("/api/v8/user/forgot-password", {
+      const { data } = await axios.post(`https://${server}/api/v8/user/forgot-password`, {
         email,
       });
       toast.success(data.message);
@@ -172,7 +173,7 @@ export const UserProvider = ({ children }) => {
   async function resetPassword(email, otp, newPassword, navigate) {
     setBtnLoading(true);
     try {
-      const { data } = await axios.post("/api/v8/user/reset-password", {
+      const { data } = await axios.post(`https://${server}/api/v8/user/reset-password`, {
         email,
         otp,
         newPassword,
@@ -188,7 +189,7 @@ export const UserProvider = ({ children }) => {
 
   async function followUser(id, fetchUser) {
     try {
-      const { data } = await axios.post("/api/v8/user/follow/" + id);
+      const { data } = await axios.post(`https://${server}/api/v8/user/follow/` + id);
       toast.success(data.message);
       fetchUser();
     } catch (error) {}
@@ -213,7 +214,7 @@ export const UserProvider = ({ children }) => {
       if (profilePhoto) {
         formData.append("file", profilePhoto);
       }
-      const { data } = await axios.put("/api/v8/user/edit-profile", formData, {
+      const { data } = await axios.put(`https://${server}/api/v8/user/edit-profile`, formData, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -230,7 +231,7 @@ export const UserProvider = ({ children }) => {
     setBtnLoading(true);
     try {
       const { data } = await axios.put(
-        "/api/v8/user/account",
+        `https://${server}/api/v8/user/account`,
         { email, password },
         { withCredentials: true }
       );
@@ -247,7 +248,7 @@ export const UserProvider = ({ children }) => {
     setBtnLoading(true);
     try {
       const data = await axios.put(
-        "/api/v8/user/account",
+        `https://${server}/api/v8/user/account`,
         { action: "deactivate" },
         { withCredentials: true }
       );
@@ -268,7 +269,7 @@ export const UserProvider = ({ children }) => {
     setBtnLoading(true);
     try {
       const { data } = await axios.put(
-        "/api/v8/user/account",
+        `https://${server}/api/v8/user/account`,
         { action: "delete" },
         { withCredentials: true }
       );
@@ -286,7 +287,7 @@ export const UserProvider = ({ children }) => {
   async function fetchMonthlyViews(username) {
     try {
       const { data } = await axios.get(
-        `/api/v8/user/${username}/monthly-views`
+        `https://${server}/api/v8/user/${username}/monthly-views`
       );
       setMonthlyViews(data.monthlyViews || 0);
     } catch (error) {
@@ -297,7 +298,7 @@ export const UserProvider = ({ children }) => {
 
   async function logoutUser(navigate) {
     try {
-      const { data } = await axios.get("/api/v8/user/logout");
+      const { data } = await axios.get(`https://${server}/api/v8/user/logout`);
       toast.success(data.message);
       setUser([]);
       setIsAuth(false);
