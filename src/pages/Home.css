@@ -1,0 +1,21 @@
+/* styles.css or Home.module.css */
+.masonry-grid-column {
+    margin-bottom: 1rem; /* Space between rows */
+  }
+  
+  .masonry-grid-column > div {
+    margin-bottom: 1rem; /* Space between cards in the same column */
+  }
+  
+  /* Ensure images in PinCard maintain aspect ratio */
+  .pin-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Maintain image quality */
+    display: block; /* Remove any unwanted spacing */
+  }
+  
+  /* Optional: Add hover effects or additional styling */
+  .pin-card:hover .overlay {
+    opacity: 1;
+  }

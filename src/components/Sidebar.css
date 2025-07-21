@@ -1,0 +1,24 @@
+/* Sidebar.css */
+.sidebar {
+    transition: background-color 0.2s ease;
+  }
+  
+  .sidebar-icon {
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .sidebar-icon:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .dropdown {
+    transition: opacity 0.2s ease;
+  }
+  
+  .dropdown-item {
+    transition: background-color 0.2s ease;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f3f4f6;
+  }
