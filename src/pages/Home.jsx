@@ -5,7 +5,7 @@ import PinCard from "../components/PinCard";
 import Masonry from "react-masonry-css";
 import { motion } from "framer-motion"; // For animations
 import "./Home.css";
-import { UserData } from "../context/userContext";
+//import { UserData } from "../context/userContext";
 
 const Home = ({user}) => {
   const { pins, loading, fetchPins } = PinData();
