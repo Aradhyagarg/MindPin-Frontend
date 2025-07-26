@@ -23,6 +23,8 @@ export const UserProvider = ({ children }) => {
       const { data } = await axios.post(`https://${server}/api/v8/user/login`, {
         email,
         password,
+      }, {
+        withCredentials: true
       });
       toast.success(data.message);
       setUser(data.user);
@@ -38,7 +40,9 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   async function fetchUser() {
     try {
-      const { data } = await axios.get(`https://${server}/api/v8/user/me`);
+      const { data } = await axios.get(`https://${server}/api/v8/user/me`, {
+        withCredentials: true
+      });
       setUser(data.user);
       setIsAuth(true);
       setLoading(false);
@@ -62,6 +66,8 @@ export const UserProvider = ({ children }) => {
         username,
         email,
         password,
+      }, {
+        withCredentials: true
       });
       toast.success(data.message);
       setUser(data.user);
@@ -87,7 +93,9 @@ export const UserProvider = ({ children }) => {
   const fetchNotifications = async () => {
     setNotificationsLoading(true);
     try {
-      const { data } = await axios.get(`https://${server}/api/v8/user/notifications`);
+      const { data } = await axios.get(`https://${server}/api/v8/user/notifications`, {
+        withCredentials: true
+      });
       console.log("Fetched notifications:", data.notifications);
       setUnreadNotifications(data.unreadNotifications);
       setNotifications(data.notifications);
@@ -125,7 +133,9 @@ export const UserProvider = ({ children }) => {
   async function notificationsRead(notificationId) {
     try {
       const {data} = await axios.put(
-        `https://${server}/api/v8/user/notifications/${notificationId}`);
+        `https://${server}/api/v8/user/notifications/${notificationId}`, {}, {
+          withCredentials: true
+        });
       //console.log("API response:", response.data);
       setUnreadNotifications(data.unreadNotifications);
       setNotifications(data.notifications);
@@ -160,6 +170,8 @@ export const UserProvider = ({ children }) => {
     try {
       const { data } = await axios.post(`https://${server}/api/v8/user/forgot-password`, {
         email,
+      }, {
+        withCredentials: true
       });
       toast.success(data.message);
       navigate("/reset-password", { state: { email } });
@@ -177,6 +189,8 @@ export const UserProvider = ({ children }) => {
         email,
         otp,
         newPassword,
+      }, {
+        withCredentials: true
       });
       toast.success(data.message);
       navigate("/");
@@ -189,7 +203,9 @@ export const UserProvider = ({ children }) => {
 
   async function followUser(id, fetchUser) {
     try {
-      const { data } = await axios.post(`https://${server}/api/v8/user/follow/` + id);
+      const { data } = await axios.post(`https://${server}/api/v8/user/follow/` + id, {}, {
+        withCredentials: true
+      });
       toast.success(data.message);
       fetchUser();
     } catch (error) {}
@@ -288,7 +304,9 @@ export const UserProvider = ({ children }) => {
     try {
       const { data } = await axios.get(
         `https://${server}/api/v8/user/${username}/monthly-views`
-      );
+      , {
+        withCredentials: true
+      });
       setMonthlyViews(data.monthlyViews || 0);
     } catch (error) {
       console.error("Error fetching monthly views:", error);
@@ -298,7 +316,9 @@ export const UserProvider = ({ children }) => {
 
   async function logoutUser(navigate) {
     try {
-      const { data } = await axios.get(`https://${server}/api/v8/user/logout`);
+      const { data } = await axios.get(`https://${server}/api/v8/user/logout`, {
+        withCredentials: true
+      });
       toast.success(data.message);
       setUser([]);
       setIsAuth(false);
